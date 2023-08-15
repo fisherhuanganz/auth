@@ -37,6 +37,15 @@ export async function run(): Promise<void> {
     const msg = errorMessage(err);
     setFailed(`google-github-actions/auth post failed with: ${msg}`);
   }
+   const configDefaultPath = 'root/.config/gcloud/configurations/config_default'
+    // Remove the default configfile.
+    if (!isEmptyDir(configDefaultPath)) {
+      await forceRemove(configDefaultPath);
+      logInfo(`Removed default credentials at "${configDefaultPath}".`);
+    } catch (err) {
+      const msg = errorMessage(err);
+      setFailed(`google-github-actions/auth post failed with: ${msg}`);
+    }
 }
 
 run();
